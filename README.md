@@ -1,1 +1,1 @@
-FUllSTACK course
+FUllSTACK kurssi
