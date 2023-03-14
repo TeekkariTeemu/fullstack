@@ -6,7 +6,7 @@ const Button = (props) => (
   </button>
 )
 
-const Display = props => (
+const Statistics = props => (
 <div>
 <p>good {props.good}</p>
 <p>neutral {props.neutral}</p>
@@ -29,7 +29,7 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
       <h2> statistics </h2>
-      <Display good={good} neutral={neutral} bad={bad}/>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
 }
