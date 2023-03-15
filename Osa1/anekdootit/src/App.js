@@ -28,14 +28,18 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Uint8Array(8))
   console.log(votes)
+  const voteClick = () => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
+  }
   return (
-    //ongelma on se etta toi muuttaa ensin koko listan numeroks ja sitten ei voi enaa kutsua lista alkioo
     <div>
       <p>{anecdotes[selected]}</p>
-      <Statistics votes={votes}/>
+      <Statistics votes={votes[selected]}/>
       <p>
         <Button handleClick={() => setSelected(Math.floor((Math.random() * 8)))} text="next anecdote" />
-        <Button handleClick={() => setVotes(votes[selected]+1)} text="vote" />
+        <Button handleClick={voteClick} text="vote" />
       </p>
     </div>
   )
