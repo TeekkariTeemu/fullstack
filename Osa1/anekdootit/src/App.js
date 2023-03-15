@@ -27,17 +27,19 @@ const App = () => {
   ]
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Uint8Array(8))
+
   let maximum = -Infinity
   for(let vote of votes){
     if(vote>maximum)
     maximum = vote
   }
-  console.log(maximum)
+  
   const voteClick = () => {
     const copy = [...votes]
     copy[selected] += 1
     setVotes(copy)
   }
+  
   return (
     <div>
       <h1>Anecdote of the day</h1>
@@ -48,8 +50,8 @@ const App = () => {
         <Button handleClick={voteClick} text="vote" />
       </p>
       <h2>The anecdote with the most votes</h2>
-      <p>{anecdotes[maximum]}</p>
-      <Statistics votes={votes[maximum]}/>
+      <p>{anecdotes[votes.indexOf(maximum)]}</p>
+      <Statistics votes={votes[votes.indexOf(maximum)]}/>
     </div>
     // tassa on nyt viel joku ongelma, maximi lahtee liikkumaan kun se tarkastetaan uudestaan turhaan
   )
