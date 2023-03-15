@@ -6,6 +6,14 @@ const Button = (props) => (
   </button>
 )
 
+const Statistics = (props) => {
+return (
+  <p>
+    has {props.votes} votes
+  </p>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -18,11 +26,17 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
   const [selected, setSelected] = useState(0)
-
+  const [votes, setVotes] = useState(new Uint8Array(8))
+  console.log(votes)
   return (
+    //ongelma on se etta toi muuttaa ensin koko listan numeroks ja sitten ei voi enaa kutsua lista alkioo
     <div>
       <p>{anecdotes[selected]}</p>
-      <p><Button handleClick={() => setSelected(Math.floor((Math.random() * 8)))} text="next anecdote" /></p>
+      <Statistics votes={votes}/>
+      <p>
+        <Button handleClick={() => setSelected(Math.floor((Math.random() * 8)))} text="next anecdote" />
+        <Button handleClick={() => setVotes(votes[selected]+1)} text="vote" />
+      </p>
     </div>
   )
 }
