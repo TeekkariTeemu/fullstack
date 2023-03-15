@@ -39,7 +39,7 @@ const App = () => {
     copy[selected] += 1
     setVotes(copy)
   }
-  
+
   return (
     <div>
       <h1>Anecdote of the day</h1>
@@ -53,7 +53,6 @@ const App = () => {
       <p>{anecdotes[votes.indexOf(maximum)]}</p>
       <Statistics votes={votes[votes.indexOf(maximum)]}/>
     </div>
-    // tassa on nyt viel joku ongelma, maximi lahtee liikkumaan kun se tarkastetaan uudestaan turhaan
   )
 }
 
