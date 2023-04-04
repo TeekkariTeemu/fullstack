@@ -17,7 +17,8 @@ const Header = (props) => {
 
 const Content = (props) => {
   const { content } = props
-  console.log("Content props:", content)
+  console.log("Content props:", props)
+  console.log("Content content:", content)
   return (
     <div>
       {content.map(x => 
@@ -28,16 +29,16 @@ const Content = (props) => {
 }
 
 const Total = (props) => {
-  const { content } = {props}
-  console.log("Total props:", content)
-  var total = content.reduce(function(sum, part) {
+  const { course } = props
+  console.log("Total props:", course)
+  var total = course.reduce(function(sum, part) {
     console.log("reduce",sum,part)
     return sum + part.exercises
   }, 0)
   console.log("total total:", total)
   return (
     <div>
-      <p>Number of exercises</p>
+      <p>Number of exercises {total}</p>
     </div>
   )
 }
