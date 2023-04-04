@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 const Name = (props) => {
-  console.log(props)
   return (
     <li>{props.name}</li>
   )
@@ -16,19 +15,20 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    const nameObject = {
+    var names = persons.map(x => x.name)
+    if (names.includes(newName)){alert(`${newName} is already added to phonebook`)}
+    else{const nameObject = {
       name: newName,
       id: persons.length + 1
     }
     setPersons(persons.concat(nameObject))
+    }
     setNewName('')
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
-  console.log(persons)
   return (
     <div>
       <h2>Phonebook</h2>
