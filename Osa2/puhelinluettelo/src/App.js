@@ -5,9 +5,6 @@ const Name = (props) => {
     <li>{props.name} {props.number}</li>
   )}
 
-  function filterNames(arr, query) {
-    return arr.filter((el) => el.toLowerCase().includes(query.toLowerCase()));
-  }
  
 const App = () => {
   const [persons, setPersons] = useState([
@@ -19,9 +16,14 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [filtered, setFiltered] = useState('')
+  const [toShow, setToShow] = useState([
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
 
-  console.log("filter", filter)
+  console.log("filter1", filter)
   const addName = (event) => {
     event.preventDefault()
     var names = persons.map(x => x.name)
@@ -32,13 +34,17 @@ const App = () => {
       number: newNumber
     }
     setPersons(persons.concat(nameObject))
+    const filtered = persons.concat(nameObject).filter(x => x.name.toLowerCase().includes(filter))
+    setToShow(filtered)
     }
     setNewName('')
     setNewNumber('')
   }
 
   const handleFilter = (event) => {
-    setFilter(event.target.value)
+    setFilter(event.target.value.toLowerCase())
+    const filtered = persons.filter(x => x.name.toLowerCase().includes(event.target.value.toLowerCase()))
+    setToShow(filtered)
   }
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -47,8 +53,7 @@ const App = () => {
     setNewNumber(event.target.value)
   }
   
-  
-  console.log(filterNames(persons.map(x => x.name), filter))
+ 
   return (
     <div>
       <h2>Phonebook</h2>
@@ -79,7 +84,7 @@ const App = () => {
         
       </form> 
       <h2>Numbers</h2>
-      {persons.map(x =>
+      {toShow.map(x =>
           <Name key={x.id} name={x.name} number={x.number}/>
         )}
     </div>
