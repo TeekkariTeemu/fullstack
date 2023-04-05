@@ -1,11 +1,6 @@
 import { useState } from 'react'
-
-const Name = (props) => {
-  return (
-    <li>{props.name} {props.number}</li>
-  )}
-
- 
+import List from './Components/List'
+import Filter from './Components/Filter'
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -16,12 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [toShow, setToShow] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  const [toShow, setToShow] = useState(persons)
 
   console.log("filter1", filter)
   const addName = (event) => {
@@ -57,15 +47,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter:
-        <input
-          value={filter}
-          onChange={handleFilter}
-        />
-        </div>
+      <Filter value={filter} onChange={handleFilter}/>
       <form onSubmit={addName}>
-      <h2>Add new</h2>
+      <h3>Add new</h3>
       <div> 
         name:
         <input
@@ -83,10 +67,7 @@ const App = () => {
         <div><button type="submit">save</button></div>
         
       </form> 
-      <h2>Numbers</h2>
-      {toShow.map(x =>
-          <Name key={x.id} name={x.name} number={x.number}/>
-        )}
+      <List toShow={toShow}/>
     </div>
   )
 
