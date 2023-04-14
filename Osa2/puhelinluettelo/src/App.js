@@ -2,6 +2,7 @@ import { useState, useEffect  } from 'react'
 import List from './Components/List'
 import Filter from './Components/Filter'
 import axios from 'axios'
+import noteService from './services/notes'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -23,6 +24,7 @@ const App = () => {
 
   console.log('render', persons.length, 'persons')
   console.log("filter1", filter)
+
   const addName = (event) => {
     event.preventDefault()
     var names = persons.map(x => x.name)
@@ -32,10 +34,12 @@ const App = () => {
       id: persons.length + 1,
       number: newNumber
     }
-    setPersons(persons.concat(nameObject))
+    noteService.create(nameObject)
+      .then(returnedNote => {
+        setPersons(persons.concat(returnedNote))
     const filtered = persons.concat(nameObject).filter(x => x.name.toLowerCase().includes(filter))
     setToShow(filtered)
-    }
+    })}
     setNewName('')
     setNewNumber('')
   }
