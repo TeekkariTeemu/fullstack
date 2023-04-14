@@ -12,14 +12,12 @@ const App = () => {
   const [toShow, setToShow] = useState(persons)
 
   useEffect(() => {
-    console.log('effect')
-    const eventHandler = response => {
-      console.log('promise fulfilled')
-      setPersons(response.data)
-      setToShow(response.data)
-    }
-    const promise = axios.get('http://localhost:3001/persons')
-    promise.then(eventHandler)
+    noteService
+      .getAll()
+      .then(response => {
+        setPersons(response)
+        setToShow(response)
+      })
   }, [])
 
   console.log('render', persons.length, 'persons')
