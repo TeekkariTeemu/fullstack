@@ -59,13 +59,11 @@ const App = () => {
     const person = persons.find(n => n.id === id)
     console.log(person)
     if (window.confirm("delete " + person.name)) {
-      axios
-    .delete(url)
-    .then(response => {
-      console.log(response)
-      const updatedPersons = persons.filter(person => person.id !== id)
-      setPersons(updatedPersons)
-      setToShow(updatedPersons)
+      noteService
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter(n => n.id !== id))
+        setToShow(toShow.filter(n => n.id !== id))
     })
     }
     }
