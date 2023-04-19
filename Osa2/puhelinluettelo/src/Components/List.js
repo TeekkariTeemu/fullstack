@@ -1,16 +1,24 @@
-const Name = (props) => {
+const Name = ({name, number, handleDelete}) => {
     return (
-      <li>{props.name} {props.number}</li>
+      <li>
+        {name} {number}
+        <button onClick = {handleDelete}>Delete</button>
+      </li>
     )}
   
    
 const List = (props) => {
-    const { toShow } = props
+    const { toShow, handleDeleteOf } = props
     return (
       <div>
         <h3>Numbers</h3>
         {toShow.map(x =>
-            <Name key={x.id} name={x.name} number={x.number}/>
+            <Name 
+            key={x.id} 
+            name={x.name} 
+            number={x.number}
+            handleDelete={() => handleDeleteOf(x.id)}
+            />
           )}
       </div>
     )
