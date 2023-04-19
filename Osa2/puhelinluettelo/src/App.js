@@ -54,6 +54,21 @@ const App = () => {
     setNewNumber(event.target.value)
   }
   
+  const handleDeleteOf = (id) => {
+    const url = `http://localhost:3001/persons/${id}`
+    const person = persons.find(n => n.id === id)
+    console.log(person)
+    if (window.confirm("delete " + person.name)) {
+      axios
+    .delete(url)
+    .then(response => {
+      console.log(response)
+      const updatedPersons = persons.filter(person => person.id !== id)
+      setPersons(updatedPersons)
+      setToShow(updatedPersons)
+    })
+    }
+    }
  
   return (
     <div>
@@ -78,7 +93,10 @@ const App = () => {
         <div><button type="submit">save</button></div>
         
       </form> 
-      <List toShow={toShow}/>
+      <List 
+      toShow={toShow}
+      handleDeleteOf={handleDeleteOf}
+      />
     </div>
   )
 
