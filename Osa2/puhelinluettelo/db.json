@@ -23,7 +23,12 @@
     {
       "name": "testi",
       "id": 5,
-      "number": "21432"
+      "number": "123"
+    },
+    {
+      "name": "teemu",
+      "id": 6,
+      "number": "0504354300"
     }
   ]
 }
