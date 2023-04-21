@@ -3,6 +3,19 @@ import List from './Components/List'
 import Filter from './Components/Filter'
 import axios from 'axios'
 import noteService from './services/notes'
+import './index.css'
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="alert">
+      {message}
+    </div>
+  )
+}
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,6 +23,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [toShow, setToShow] = useState(persons)
+  const [alertMessage, setAlertMessage] = useState(null)
 
   useEffect(() => {
     noteService
@@ -38,13 +52,18 @@ const App = () => {
           setToShow(toShow.map(person => person.id !== existingPerson.id ? person : returnedPerson))
           setNewName('')
           setNewNumber('')
+          setAlertMessage(
+            `${existingPerson.name}'s number changed`
+          )
+          setTimeout(() => {
+            setAlertMessage(null)
+          }, 5000)
         })
       }
     }
     
     else{const nameObject = {
       name: newName,
-      id: persons.length + 1,
       number: newNumber
     }
     noteService.create(nameObject)
@@ -52,6 +71,12 @@ const App = () => {
         setPersons(persons.concat(returnedNote))
     const filtered = persons.concat(nameObject).filter(x => x.name.toLowerCase().includes(filter))
     setToShow(filtered)
+    setAlertMessage(
+      `added ${newName}`
+    )
+    setTimeout(() => {
+      setAlertMessage(null)
+    }, 5000)
     })}
     setNewName('')
     setNewNumber('')
@@ -79,6 +104,12 @@ const App = () => {
       .then(() => {
         setPersons(persons.filter(n => n.id !== id))
         setToShow(toShow.filter(n => n.id !== id))
+        setAlertMessage(
+          `deleted ${person.name}`
+        )
+        setTimeout(() => {
+          setAlertMessage(null)
+        }, 5000)
     })
     }
     }
@@ -86,6 +117,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={alertMessage} />
       <Filter value={filter} onChange={handleFilter}/>
       <form onSubmit={addName}>
       <h3>Add new</h3>

@@ -12,14 +12,16 @@ const List = (props) => {
     return (
       <div>
         <h3>Numbers</h3>
-        {toShow.map(x =>
-            <Name 
-            key={x.id} 
-            name={x.name} 
+        <ul>
+        {toShow.map((x, index) => (
+          <Name
+            key={index}
+            name={x.name}
             number={x.number}
             handleDelete={() => handleDeleteOf(x.id)}
-            />
-          )}
+          />
+        ))}
+      </ul>
       </div>
     )
   }

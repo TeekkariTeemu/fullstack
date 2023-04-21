@@ -21,14 +21,24 @@
       "id": 4
     },
     {
-      "name": "testi",
-      "id": 5,
-      "number": "123"
+      "name": "tessu",
+      "number": "12412535",
+      "id": 8
     },
     {
-      "name": "teemu",
-      "id": 6,
-      "number": "0504354300"
+      "name": "tepa",
+      "number": "124142512",
+      "id": 9
+    },
+    {
+      "name": "Teemu",
+      "number": "0504354300",
+      "id": 11
+    },
+    {
+      "name": "Teemux",
+      "number": "+358504354300",
+      "id": 12
     }
   ]
 }
