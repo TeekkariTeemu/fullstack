@@ -25,6 +25,9 @@ const List = ({ countries, handleShow }) => {
           ))}
         </ul>
         <img src ={country.flags.png} alt ={country.flags.alt}/>
+        <Weather 
+         country={country}
+        />
       </div>
     )
   } 
@@ -36,13 +39,44 @@ const List = ({ countries, handleShow }) => {
       <ul>
         {countries.map((country) => (
           <div key={country.cca3}>
-            <li>{country.name.common} <button onClick={() => handleShow(country)}>Show</button>
- </li>
+            <li>{country.name.common} <button onClick={() => handleShow(country)}>Show</button> </li>
           </div>
         ))}
+        
       </ul>
     )
   }
+}
+
+//Esitetään Sää
+const Weather = ({ country }) => {
+  console.log(country)
+  const [weather, setWeather] = useState([])
+  //haetaan maitten tiedot
+  useEffect(() => {
+    const apiKey = process.env.REACT_APP_API_KEY
+    const cityName = country.capital[0]
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`
+    axios
+      .get(url)
+      .then((response) => {
+        setWeather(response.data)
+      })
+  }, [])
+  //varmistetaan, että kaikki vaadittavat tiedot löytyvät, ettei tule Error
+  if (!weather.wind || !weather.main || !weather.weather || !weather.weather[0]) {
+    return null
+  }
+  
+ const icon = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`
+  return (
+    <div>
+      <h2>Weather in {country.capital[0]}</h2>
+      <p>Temperature: {Math.round(weather.main.temp - 273.15)} °C</p>
+      <img src = {icon} alt ={weather.weather[0].description}/>
+      <p>Wind: {weather.wind.speed} m/s</p>
+    </div>
+  )
 }
 
 //komponentissa määritellää filtteri
@@ -66,7 +100,6 @@ function App() {
   //tarvittavat hookit
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
-
 
   useEffect(() => {
     axios
