@@ -6,7 +6,7 @@ import axios from 'axios'
 //määritellään tarvittavat komponentit
 //Komponentti tekee ja esittää listan maista
 //Object.values, hakee objektin arvot. Käytetään koska languages muuttujilla eri nimet
-const List = ({ countries }) => {
+const List = ({ countries, handleShow }) => {
   if (countries.length === 0) {
     return <p>Not a country</p>
   } else if (countries.length === 1) {
@@ -35,7 +35,10 @@ const List = ({ countries }) => {
     return (
       <ul>
         {countries.map((country) => (
-          <li key={country.cca3}>{country.name.common}</li>
+          <div key={country.cca3}>
+            <li>{country.name.common} <button onClick={() => handleShow(country)}>Show</button>
+ </li>
+          </div>
         ))}
       </ul>
     )
@@ -78,14 +81,24 @@ function App() {
     setFilter(event.target.value)
   }
 
+  //tapahtumankäsittelijä valitsee maan, jonka nappia painetaan.
+  const handleShow = (country) => {
+    setFilter(country.name.common)
+  }
   const filteredCountries = countries.filter((country) =>
   country.name.common.toLowerCase().includes(filter.toLowerCase())
 )
 
   return (
     <div>
-    <Filter value={filter} onChange={handleFilter}/>
-    <List countries={filteredCountries}/>
+    <Filter 
+    value={filter} 
+    onChange={handleFilter}
+    />
+    <List 
+    countries={filteredCountries}
+    handleShow={handleShow}
+    />
   </div>
   )
 }
