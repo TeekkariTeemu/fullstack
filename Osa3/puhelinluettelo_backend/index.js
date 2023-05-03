@@ -55,6 +55,11 @@ let persons = [
     response.json(person)
   })
 
+  app.get('/info', (request, response) => {
+    const date = new Date()
+    const len = persons.length
+    response.send(`Phonebook has info for ${len} people<br>${date}`)
+  })
 
   //rivit sitovat muuttujaan app sijoitetun http-palvelimen
   //kuuntelemaan porttiin 3002 tulevia HTTP-pyyntöjä
