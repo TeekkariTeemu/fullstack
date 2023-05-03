@@ -59,6 +59,34 @@ let persons = [
       }
   })
 
+  //poistaa nimen listasta
+  app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(person => person.id !== id)
+  
+    response.status(204).end()
+  })
+
+  //Postataan uusi nimi ja numero. (jos molemmat täytetty)
+  app.post('/api/persons', (request, response) => {
+    const body = request.body
+  
+    if (!body.name || !body.number) {
+      return response.status(400).json({ 
+        error: 'name or number missing' 
+      })
+    }
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: Math.floor(Math.random() * 9999),
+      }
+    
+      persons = persons.concat(person)
+    
+      response.json(person)
+    })
+
   app.get('/info', (request, response) => {
     const date = new Date()
     const len = persons.length
