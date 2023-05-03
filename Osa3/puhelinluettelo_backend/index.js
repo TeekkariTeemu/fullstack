@@ -2,8 +2,19 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 
+
+//tehdään tokeni, joka sisältää POST:in datan,
+//jos pyyntö on tyyppiä POST
+morgan.token('postData', (request) => {
+    if (request.method === 'POST') {
+      return JSON.stringify(request.body)
+    }
+    return ''
+  })
+
 app.use(express.json())
-app.use(morgan('tiny'))
+//mukaillaan tiny-konfiguraatiota, morgan-dokumentaation mukaisesti
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
 
 let persons = [
     {
