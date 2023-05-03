@@ -70,12 +70,18 @@ let persons = [
   //Postataan uusi nimi ja numero. (jos molemmat täytetty)
   app.post('/api/persons', (request, response) => {
     const body = request.body
+    const nameExists = persons.find(person => person.name === body.name)
   
     if (!body.name || !body.number) {
       return response.status(400).json({ 
         error: 'name or number missing' 
       })
     }
+    if (nameExists) {
+        return response.status(400).json({ 
+          error: 'name must be unique' 
+        })
+      }
     const person = {
         name: body.name,
         number: body.number,
