@@ -49,7 +49,7 @@ const App = () => {
   console.log('render', notes.length, 'notes')
 
   const toggleImportanceOf = id => {
-    const url = `http://localhost:3001/notes/${id}`
+    const url = `http://localhost:3001/api/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
   
