@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const cors = require('cors')
+
+
 
 
 //tehdään tokeni, joka sisältää POST:in datan,
@@ -12,7 +15,9 @@ morgan.token('postData', (request) => {
     return ''
   })
 
+app.use(express.static('build'))
 app.use(express.json())
+app.use(cors())
 //mukaillaan tiny-konfiguraatiota, morgan-dokumentaation mukaisesti
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
 
@@ -114,7 +119,7 @@ let persons = [
 
   //rivit sitovat muuttujaan app sijoitetun http-palvelimen
   //kuuntelemaan porttiin 3002 tulevia HTTP-pyyntöjä
-  const PORT = 3002
+  const PORT = process.env.PORT || 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })

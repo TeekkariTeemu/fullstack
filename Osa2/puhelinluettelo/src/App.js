@@ -1,7 +1,6 @@
 import { useState, useEffect  } from 'react'
 import List from './Components/List'
 import Filter from './Components/Filter'
-import axios from 'axios'
 import noteService from './services/notes'
 import './index.css'
 
@@ -116,7 +115,6 @@ const App = () => {
   }
   
   const handleDeleteOf = (id) => {
-    const url = `http://localhost:3001/persons/${id}`
     const person = persons.find(n => n.id === id)
     console.log(person)
     if (window.confirm("delete " + person.name)) {
