@@ -1,8 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
-
+const Person = require('./models/person')
 
 
 
@@ -59,7 +60,9 @@ let persons = [
   //JavaScript-olioa eli taulukkoa notes vastaavan 
   //JSON-muotoisen merkkijonon
   app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(persons => {
+      response.json(persons)
+    })
   })
 
   //Nyt app.get('/api/notes/:id', ...)käsittelee kaikki HTTP GET 
@@ -68,13 +71,9 @@ let persons = [
   //Polun parametrin id arvoon päästään käsiksi pyynnön 
   //tiedot kertovan olion request kautta
   app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
-        response.json(person)
-      } else {
-        response.status(404).end()
-      }
+    Person.findById(request.params.id).then(person => {
+      response.json(person)
+    })
   })
 
   //poistaa nimen listasta
@@ -100,15 +99,14 @@ let persons = [
           error: 'name must be unique' 
         })
       }
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number,
-        id: Math.floor(Math.random() * 9999),
-      }
+      })
     
-      persons = persons.concat(person)
-    
-      response.json(person)
+      person.save().then(savedPerson => {
+      response.json(savedPerson)
+    })
     })
 
   app.get('/info', (request, response) => {
@@ -119,7 +117,7 @@ let persons = [
 
   //rivit sitovat muuttujaan app sijoitetun http-palvelimen
   //kuuntelemaan porttiin 3002 tulevia HTTP-pyyntöjä
-  const PORT = process.env.PORT || 3001
+  const PORT = process.env.PORT
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
