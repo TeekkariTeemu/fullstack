@@ -77,12 +77,14 @@ let persons = [
   })
 
   //poistaa nimen listasta
-  app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    persons = persons.filter(person => person.id !== id)
-  
-    response.status(204).end()
+  app.delete('/api/persons/:id', (request, response, next) => {
+    Person.findByIdAndRemove(request.params.id)
+      .then(result => {
+        response.status(204).end()
+      })
+      .catch(error => next(error))
   })
+  
 
   //Postataan uusi nimi ja numero. (jos molemmat täytetty)
   app.post('/api/persons', (request, response) => {
