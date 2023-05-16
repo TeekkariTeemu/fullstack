@@ -39,40 +39,6 @@ app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
 
 
-
-let persons = [
-    {
-      name: "Arto Hellas",
-      number: "040-123456",
-      id: 1
-    },
-    {
-      name: "Ada Lovelace",
-      number: "39-44-5323523",
-      id: 2
-    },
-    {
-      name: "Dan Abramov",
-      number: "12-43-234345",
-      id: 3
-    },
-    {
-      name: "Mary Poppendieck",
-      number: "39-23-6423122",
-      id: 4
-    }
-  ]
-
-
-  //route määrittelee tapahtumankäsittelijän, joka hoitaa 
-  //sovelluksen juureen eli polkuun / tulevia HTTP GET -pyyntöjä
-  //request sisältää kaikki HTTP-pyynnön tiedot ja 
-  //toisen parametrin response:n avulla määritellään, 
-  //miten pyyntöön vastataan.
-  app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-  })
-
   //Pyyntöön vastataan response-olion metodilla json, joka 
   //lähettää HTTP-pyynnön vastaukseksi parametrina olevaa 
   //JavaScript-olioa eli taulukkoa notes vastaavan 
