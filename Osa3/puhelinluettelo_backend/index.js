@@ -21,6 +21,8 @@ morgan.token('postData', (request) => {
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+      return response.status(400).json({ error: error.message })
     }
   
     next(error)
@@ -109,13 +111,13 @@ let persons = [
   
 
   //Postataan uusi nimi ja numero. (jos molemmat täytetty)
-  app.post('/api/persons', (request, response) => {
+  app.post('/api/persons', (request, response, next) => {
     const body = request.body
     const nameExists = persons.find(person => person.name === body.name)
   
-    if (!body.name || !body.number) {
+    if (!body.number) {
       return response.status(400).json({ 
-        error: 'name or number missing' 
+        error: 'number missing' 
       })
     }
     if (nameExists) {
@@ -131,6 +133,7 @@ let persons = [
       person.save().then(savedPerson => {
       response.json(savedPerson)
     })
+    .catch(error => next(error))
     })
 
  app.get('/info', async (request, response) => {
