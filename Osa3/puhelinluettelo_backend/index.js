@@ -133,11 +133,11 @@ let persons = [
     })
     })
 
-  app.get('/info', (request, response) => {
-    const date = new Date()
-    const len = persons.length
-    response.send(`Phonebook has info for ${len} people<br>${date}`)
-  })
+ app.get('/info', async (request, response) => {
+  const date = new Date()
+  const len = await Person.countDocuments()
+  response.send(`Phonebook has info for ${len} people<br>${date}`)
+})
 
   app.put('/api/persons/:id', (request, response, next) => {
   const body = request.body
