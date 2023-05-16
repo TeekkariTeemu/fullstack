@@ -10,7 +10,8 @@
     "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../../Osa2/puhelinluettelo && npm run build && @powershell Copy-Item build -Recurse ../../Osa3/puhelinluettelo_backend",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.40.0",
     "nodemon": "^2.0.22"
   }
 }
