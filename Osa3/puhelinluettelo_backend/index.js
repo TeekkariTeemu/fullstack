@@ -16,11 +16,27 @@ morgan.token('postData', (request) => {
     return ''
   })
 
+  const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+  
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    }
+  
+    next(error)
+  }
+
+  const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+  }
+
 app.use(express.static('build'))
 app.use(express.json())
 app.use(cors())
 //mukaillaan tiny-konfiguraatiota, morgan-dokumentaation mukaisesti
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
+
+
 
 let persons = [
     {
@@ -70,10 +86,16 @@ let persons = [
   //jossa JOTAIN on mielivaltainen merkkijono.
   //Polun parametrin id arvoon päästään käsiksi pyynnön 
   //tiedot kertovan olion request kautta
-  app.get('/api/persons/:id', (request, response) => {
-    Person.findById(request.params.id).then(person => {
-      response.json(person)
-    })
+  app.get('/api/persons/:id', (request, response, next) => {
+    Person.findById(request.params.id)
+      .then(person => {
+        if (person) {
+          response.json(person)
+        } else {
+          response.status(404).end()
+        }
+      })
+      .catch(error => next(error))
   })
 
   //poistaa nimen listasta
@@ -116,6 +138,9 @@ let persons = [
     const len = persons.length
     response.send(`Phonebook has info for ${len} people<br>${date}`)
   })
+
+  app.use(unknownEndpoint)
+  app.use(errorHandler)
 
   //rivit sitovat muuttujaan app sijoitetun http-palvelimen
   //kuuntelemaan porttiin 3002 tulevia HTTP-pyyntöjä
