@@ -139,6 +139,21 @@ let persons = [
     response.send(`Phonebook has info for ${len} people<br>${date}`)
   })
 
+  app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
+
   app.use(unknownEndpoint)
   app.use(errorHandler)
 
