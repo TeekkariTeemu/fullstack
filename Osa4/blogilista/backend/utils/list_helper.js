@@ -54,13 +54,42 @@ const topBlogger = (blogs) => {
     }
     return topBlogger
   }
+}
 
+const favoriteBlogger = (blogs) => {
 
+  if(blogs.length === 0){
+    let favoriteBlogger = {
+      author:'',
+      likes:0
+    }
+    return favoriteBlogger
+  } else{
+    const authorLikes = _.groupBy(blogs, 'author')
+
+    let maxLikes = 0
+    let topAuthor = ''
+
+    _.forEach(authorLikes, (blogs, author) => {
+      const totalLikes = _.sumBy(blogs, 'likes')
+
+      if (totalLikes > maxLikes) {
+        maxLikes = totalLikes
+        topAuthor = author
+      }
+    })
+    let favoriteBlogger = {
+      author: topAuthor,
+      likes: maxLikes
+    }
+    return favoriteBlogger
+  }
 }
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  topBlogger
+  topBlogger,
+  favoriteBlogger
 }
