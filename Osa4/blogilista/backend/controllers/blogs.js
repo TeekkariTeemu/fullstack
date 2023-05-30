@@ -17,6 +17,11 @@ blogsRouter.post('/', (request, response) => {
     .then(result => {
       response.status(201).json(result)
     })
+    .catch(error => {
+      if (error.name === 'ValidationError') {
+        response.status(400).json({ error: error.message })
+      }
+    })
 })
 
 

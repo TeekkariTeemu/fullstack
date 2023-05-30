@@ -77,6 +77,31 @@ test('Blog with no likes gets a value of 0', async () => {
 
 })
 
+test('Blog without title or url returns status code 400', async () => {
+
+  const blogWithoutTitle = {
+    author: 'blog adder',
+    url: 'https://example.com/no-title',
+    likes: 13
+  }
+
+  const blogWithoutUrl = {
+    title: 'no url blog',
+    author: 'blog adder',
+    likes: 13
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(blogWithoutTitle)
+    .expect(400)
+
+  await api
+    .post('/api/blogs')
+    .send(blogWithoutUrl)
+    .expect(400)
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
