@@ -57,6 +57,26 @@ test('a valid blog can be added ', async () => {
   )
 })
 
+test('Blog with no likes gets a value of 0', async () => {
+  const newBlog = {
+    title: 'no likes blog',
+    author: 'blog adder',
+    url: 'https://example.com/no-likes',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const addedBlog = response.body.find(blog => blog.title === 'no likes blog')
+
+  expect(addedBlog.likes).toBe(0)
+
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
