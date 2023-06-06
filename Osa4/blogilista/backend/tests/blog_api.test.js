@@ -199,6 +199,45 @@ describe('when there is initially one user at db', () => {
   })
 })
 
+describe('User creation validation', () => {
+  test('Malformed user cannot be created - missing username', async () => {
+    const newUser = {
+      name: 'John Doe',
+      password: '123456'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+  })
+
+  test('Malformed user cannot be created - missing password', async () => {
+    const newUser = {
+      username: 'johndoe',
+      name: 'John Doe'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+  })
+
+  test('Malformed user cannot be created - invalid password length', async () => {
+    const newUser = {
+      username: 'johndoe',
+      name: 'John Doe',
+      password: '12'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+  })
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
