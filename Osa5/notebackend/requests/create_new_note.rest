@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRTbyIsImlkIjoiNjQ3ZWNmMDg2YzY0ZTNhOWExZjYxZDliIiwiaWF0IjoxNjg2MDM1OTkzfQ.ptlwjDiMiNJVqtqrD4omXlK12oNTZeLoy5vhl1hlN1E
+
+{
+    "content": "postman on kiva",
+    "important": true
+}

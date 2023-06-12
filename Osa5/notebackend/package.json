@@ -1,0 +1,56 @@
+{
+  "name": "notebackend",
+  "version": "1.0.0",
+  "description": "kurssitehtävä",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../notefrontend && npm run build && @powershell Copy-Item build -Recurse ../notebackend",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "fly logs",
+    "lint": "eslint .",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "logout":"window.localStorage.clear()"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Osa5/notebackend.git"
+  },
+  "keywords": [
+    "backend"
+  ],
+  "author": "Teemu Soukki",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Osa5/notebackend/issues"
+  },
+  "homepage": "https://github.com/Osa5/notebackend#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.4.0",
+    "mongoose": "^7.1.1",
+    "mongoose-unique-validator": "^4.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.40.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "globalTeardown": "./tests/teardown.js"
+  }
+}
