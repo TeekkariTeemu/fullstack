@@ -7,28 +7,32 @@ const initialBlogs = [
     author: 'John Doe',
     url: 'https://example.com/first-blog',
     likes: 10,
-    id: '646cbb9212eb6e454eb6397b'
+    id: '646cbb9212eb6e454eb6397b',
+    user: '6482d8f8964844e198f1ff71'
   },
   {
     title: 'Second Blog',
     author: 'Jane Smith',
     url: 'https://example.com/second-blog',
     likes: 5,
-    id: '789abcde1234567890'
+    id: '789abcde1234567890',
+    user:'6482d8f8964844e198f1ff71'
   },
   {
     title: 'Third Blog',
     author: 'John Doe',
     url: 'https://example.com/third-blog',
     likes: 8,
-    id: '0987654321fedcba'
+    id: '0987654321fedcba',
+    user:'6482d8f8964844e198f1ff71'
   },
   {
     title: 'Fourth Blog',
     author: 'Alice Johnson',
     url: 'https://example.com/fourth-blog',
     likes: 3,
-    id: 'a1b2c3d4e5f6g7h8i9j0'
+    id: 'a1b2c3d4e5f6g7h8i9j0',
+    user:'6482d8f8964844e198f1ff71'
   }
 ]
 

@@ -20,7 +20,6 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
       return response.status(401).json({ error: 'token invalid' })
     }
     const user = request.user
-    //const user = await User.findById(decodedToken.id)
 
     const blog = new Blog({
       title: body.title,
@@ -35,7 +34,7 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
 
-    response.json(savedBlog)
+    response.status(201).json(savedBlog)
   } catch (error) {
     if (error.name === 'ValidationError') {
       response.status(400).json({ error: error.message })

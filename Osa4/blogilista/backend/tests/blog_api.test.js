@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-
+const jwt = require('jsonwebtoken')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
@@ -10,9 +10,20 @@ const helper = require('./test_helper')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
+let token
+
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
+
+  const response = await api
+    .post('/api/login')
+    .send({
+      username: 'root',
+      password: 'sekret'
+    })
+
+  token = response.body.token
 })
 
 test('Blogs are returned as json', async () => {
@@ -42,11 +53,12 @@ test('a valid blog can be added ', async () => {
     title: 'added blog',
     author: 'blog adder',
     url: 'https://example.com/new-blog',
-    likes: 13
+    likes: 15
   }
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -69,6 +81,7 @@ test('Blog with no likes gets a value of 0', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -96,11 +109,13 @@ test('Blog without title or url returns status code 400', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(blogWithoutTitle)
     .expect(400)
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(blogWithoutUrl)
     .expect(400)
 })
@@ -111,6 +126,7 @@ test('succeeds with status code 204 if id is valid', async () => {
 
   await api
     .delete(`/api/blogs/${blogToDelete.id}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(204)
 
   const blogsAtEnd = await helper.blogsInDb()
@@ -156,6 +172,7 @@ describe('when there is initially one user at db', () => {
     await user.save()
   })
 
+
   test('creation succeeds with a fresh username', async () => {
     const usersAtStart = await helper.usersInDb()
 
@@ -177,27 +194,31 @@ describe('when there is initially one user at db', () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
   })
-  test('creation fails with proper statuscode and message if username already taken', async () => {
+
+  test('creation fails with proper status code and message if username already taken', async () => {
     const usersAtStart = await helper.usersInDb()
 
+    const existingUser = usersAtStart[0]
+
     const newUser = {
-      username: 'root',
-      name: 'Superuser',
-      password: 'salainen',
+      username: existingUser.username,
+      name: 'Test User',
+      password: 'password123',
     }
 
-    const result = await api
+    const response = await api
       .post('/api/users')
       .send(newUser)
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('expected `username` to be unique')
+    expect(response.body.error).toContain('expected `username` to be unique')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
 })
+
 
 describe('User creation validation', () => {
   test('Malformed user cannot be created - missing username', async () => {
