@@ -9,6 +9,9 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -35,6 +38,33 @@ const App = () => {
         {message}
       </div>
     )
+  }
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault()
+
+    try {
+      const newBlog = {
+        title,
+        author,
+        url,
+      }
+
+ 
+      await blogService.create(newBlog)
+
+      const updatedBlogs = await blogService.getAll()
+      setBlogs(updatedBlogs)
+
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } catch (exception) {
+      setErrorMessage('Failed to create a new blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   const handleLogin = async (event) => {
@@ -93,6 +123,33 @@ const App = () => {
   const blogForm = () => (
     <div>
       <h2>blogs</h2>
+      <form onSubmit={handleCreateBlog}>
+      <div>
+        title:
+        <input
+          type="text"
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+        />
+      </div>
+      <div>
+        author:
+        <input
+          type="text"
+          value={author}
+          onChange={({ target }) => setAuthor(target.value)}
+        />
+      </div>
+      <div>
+        url:
+        <input
+          type="text"
+          value={url}
+          onChange={({ target }) => setUrl(target.value)}
+        />
+      </div>
+      <button type="submit">create</button>
+    </form>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
