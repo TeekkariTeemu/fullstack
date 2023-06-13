@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
@@ -28,13 +30,13 @@ const App = () => {
     }
   }, [])
 
-  const Notification = ({ message }) => {
+  const Notification = ({ message, className }) => {
     if (message === null) {
       return null
     }
   
     return (
-      <div className="error">
+      <div className={className}>
         {message}
       </div>
     )
@@ -59,6 +61,11 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+
+      setSuccessMessage(`Added a new blog: ${title} by ${author}`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
     } catch (exception) {
       setErrorMessage('Failed to create a new blog')
       setTimeout(() => {
@@ -159,7 +166,8 @@ const App = () => {
   return (
     <div>
 
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} className="error" />
+      <Notification message={successMessage} className="blog" />
 
       {!user && loginForm()}
       {user && <div>
