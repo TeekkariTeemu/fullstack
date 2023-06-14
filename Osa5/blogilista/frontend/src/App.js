@@ -136,7 +136,7 @@ const App = () => {
     <div>
 
       <Notification message={errorMessage} className="error" />
-      <Notification message={successMessage} className="blog" />
+      <Notification message={successMessage} className="success" />
 
       {!user && loginForm()}
       {user && <div>
