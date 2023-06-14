@@ -17,8 +17,9 @@ const Blog = ({ blog }) => {
       </div>
       {showDetails && (
         <div>
-          <p>Likes: {blog.likes}</p>
           <p>URL: {blog.url}</p>
+          <p>Likes: {blog.likes}</p>
+          <p>Author: {blog.author}</p>
         </div>
       )}
     </div>
