@@ -118,17 +118,21 @@ const App = () => {
     </form>      
   )
 
-  const blogForm = () => (
-    <div>
-      <h2>blogs</h2>
-      <Togglable buttonLabel="New Blog" ref={toggleRef}>
-        <BlogForm addBlog={addBlog} />
-      </Togglable>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
-    </div>
-  )
+  const blogForm = () => {
+    const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+  
+    return (
+      <div>
+        <h2>blogs</h2>
+        <Togglable buttonLabel="New Blog" ref={toggleRef}>
+          <BlogForm addBlog={addBlog} />
+        </Togglable>
+        {sortedBlogs.map((blog) => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
+      </div>
+    )
+  }
 
   const toggleRef = useRef()
 
