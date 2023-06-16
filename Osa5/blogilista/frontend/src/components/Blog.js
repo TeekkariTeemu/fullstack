@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({ blog }) => {
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(false)
   const [updatedLikes, setUpdatedLikes] = useState(blog.likes)
 
   const handleLike = async () => {
     const updatedBlog = { ...blog, likes: blog.likes + 1 }
     await blogService.update(blog.id, updatedBlog)
     setUpdatedLikes(updatedBlog.likes)
-  };
+  }
 
   return (
     <div className="blog">
@@ -25,7 +25,7 @@ const Blog = ({ blog }) => {
         {showDetails ? 'Hide' : 'Show'} Details
       </button>
     </div>
-  );
-};
+  )
+}
 
 export default Blog

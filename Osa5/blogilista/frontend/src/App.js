@@ -10,14 +10,14 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const App = () => {
     if (message === null) {
       return null
     }
-  
+
     return (
       <div className={className}>
         {message}
@@ -43,7 +43,7 @@ const App = () => {
 
   const addBlog = async (newBlog) => {
     try {
-      await blogService.create(newBlog);
+      await blogService.create(newBlog)
 
       const updatedBlogs = await blogService.getAll()
       setBlogs(updatedBlogs)
@@ -54,7 +54,7 @@ const App = () => {
       }, 5000)
 
       if (toggleRef.current) {
-        toggleRef.current.toggleVisibility();
+        toggleRef.current.toggleVisibility()
       }
 
     } catch (exception) {
@@ -67,7 +67,7 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -75,7 +75,7 @@ const App = () => {
 
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -98,7 +98,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -107,7 +107,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -115,12 +115,12 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
 
   const blogForm = () => {
     const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
-  
+
     return (
       <div>
         <h2>blogs</h2>
@@ -144,10 +144,10 @@ const App = () => {
 
       {!user && loginForm()}
       {user && <div>
-       <p>{user.name} logged in <button onClick={handleLogout}>logout</button> </p> 
-         {blogForm()}
+        <p>{user.name} logged in <button onClick={handleLogout}>logout</button> </p>
+        {blogForm()}
       </div>
-    } 
+      }
     </div>
   )
 }
