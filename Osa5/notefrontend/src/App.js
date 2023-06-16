@@ -78,6 +78,7 @@ const App = () => {
       .update(id, changedNote).then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
+      // eslint-disable-next-line
       .catch(error => {
         setErrorMessage(
           `Note '${note.content}' was already removed from server`
