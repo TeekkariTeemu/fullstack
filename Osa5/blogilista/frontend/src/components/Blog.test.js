@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
 import userEvent from '@testing-library/user-event'
-// import BlogForm from './BlogForm'
+import BlogForm from './BlogForm'
 
 test('renders blog title and author by default', () => {
   const blog = {
@@ -83,29 +83,25 @@ test('clicking the button adds a Like', async () => {
   expect(likesText).toHaveTextContent(`Likes: ${blog.likes + 1}`)
 })
 
-/*
+test('calls the event handler with the right details when a new blog is created', async () => {
+  const addBlogMock = jest.fn()
+  const user = userEvent.setup()
 
-describe('BlogForm', () => {
-  test('calls the event handler with the right details when a new blog is created', () => {
-    const addBlogMock = jest.fn()
+  render(<BlogForm addBlog={addBlogMock} author={() => {}} title={() => {}} />)
 
-    render(<BlogForm addBlog={addBlogMock} />)
+  const titleInput = screen.getByRole('textbox', { name: 'Title:' })
+  const authorInput = screen.getByRole('textbox', { name: 'Author:' })
+  const urlInput = screen.getByRole('textbox', { name: 'url:' })
 
-    // Simulate user input
-    userEvent.type(screen.getByLabelText('title:'), 'Test Blog Title')
-    userEvent.type(screen.getByLabelText('author:'), 'Test Author')
-    userEvent.type(screen.getByLabelText('url:'), 'https://example.com')
+  await user.type(titleInput, 'Test Blog Title')
+  await user.type(authorInput, 'Test Author')
+  await user.type(urlInput, 'https://example.com')
 
-    // Submit the form
-    userEvent.click(screen.getByText('create'))
+  await user.click(screen.getByRole('button', { name: 'create' }))
 
-    // Verify that the event handler was called with the correct details
-    expect(addBlogMock).toHaveBeenCalledWith({
-      title: 'Test Blog Title',
-      author: 'Test Author',
-      url: 'https://example.com',
-    })
+  expect(addBlogMock).toHaveBeenCalledWith({
+    title: 'Test Blog Title',
+    author: 'Test Author',
+    url: 'https://example.com',
   })
 })
-
-*/

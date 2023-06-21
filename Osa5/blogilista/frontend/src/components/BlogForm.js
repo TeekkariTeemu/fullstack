@@ -25,24 +25,30 @@ const BlogForm = ({ addBlog }) => {
   return (
     <form onSubmit={handleCreateBlog}>
       <div>
-            title:
+        <label htmlFor="title">Title:</label>
         <input
+          id="title"
+          name="title"
           type="text"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
         />
       </div>
       <div>
-            author:
+        <label htmlFor="author">Author:</label>
         <input
+          id="author"
+          name="author"
           type="text"
           value={author}
           onChange={({ target }) => setAuthor(target.value)}
         />
       </div>
       <div>
-            url:
+        <label htmlFor="url">url:</label>
         <input
+          id="url"
+          name="url"
           type="text"
           value={url}
           onChange={({ target }) => setUrl(target.value)}
@@ -56,7 +62,6 @@ const BlogForm = ({ addBlog }) => {
 BlogForm.propTypes = {
   title: PropTypes.func.isRequired,
   author: PropTypes.func.isRequired,
-  handurllePasswordChange: PropTypes.func.isRequired,
 }
 
 export default BlogForm
